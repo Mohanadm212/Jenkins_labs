@@ -7,16 +7,22 @@ pipeline {
                 git 'https://github.com/Mohanadm212/Jenkins_labs.git'
             }
         }
-        stage('Build') {
+
+        stage('Build Docker Image') {
             steps {
-                echo "Building..."
+                script {
+                    echo 'Building Docker image...'
+                    sh 'docker build -t jenkins-labs-image .'
+                }
             }
         }
+
         stage('Test') {
             steps {
                 echo "Testing..."
             }
         }
+
         stage('Deploy') {
             steps {
                 echo "Deploying..."

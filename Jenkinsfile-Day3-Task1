@@ -1,0 +1,19 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/Mohanadm212/Jenkins_labs.git'
+            }
+        }
+
+        stage('Deploy to Minikube') {
+            steps {
+                script {
+                    sh 'kubectl apply -f k8s/deployment.yaml'
+                }
+            }
+        }
+    }
+}

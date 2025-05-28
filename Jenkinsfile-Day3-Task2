@@ -9,7 +9,7 @@ pipeline {
   environment {
     IMAGE_NAME = 'mohanadmahmoud/day3'
     TAG = 'latest'
-    REGISTRY_CREDENTIALS = 'dockerhub-creds' 
+    REGISTRY_CREDENTIALS = 'dockerhub-cred' 
   }
 
   stages {

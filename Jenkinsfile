@@ -14,17 +14,20 @@ pipeline {
 
         stage('Security Scan - Trivy') {
             steps {
-                sh """
-                docker run --rm \
-                    -v /var/run/docker.sock:/var/run/docker.sock \
-                    -v $(pwd):/root/reports \
-                    aquasec/trivy:latest image \
-                    --exit-code 1 \
-                    --severity HIGH,CRITICAL \
-                    --format table \
-                    --output /root/reports/trivy-report.txt \
-                    ${IMAGE_NAME}
-                """
+                script {
+                    def workDir = sh(script: 'pwd', returnStdout: true).trim()
+                    sh """
+                        docker run --rm \
+                            -v /var/run/docker.sock:/var/run/docker.sock \
+                            -v ${workDir}:/root/reports \
+                            aquasec/trivy:latest image \
+                            --exit-code 1 \
+                            --severity HIGH,CRITICAL \
+                            --format table \
+                            --output /root/reports/trivy-report.txt \
+                            ${IMAGE_NAME}
+                    """
+                }
             }
         }
 

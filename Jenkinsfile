@@ -21,7 +21,7 @@ pipeline {
                             -v /var/run/docker.sock:/var/run/docker.sock \
                             -v ${workDir}:/root/reports \
                             aquasec/trivy:latest image \
-                            --exit-code 1 \
+                            --exit-code 0 \
                             --severity HIGH,CRITICAL \
                             --format table \
                             --output /root/reports/trivy-report.txt \

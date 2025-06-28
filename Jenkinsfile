@@ -16,27 +16,21 @@ pipeline {
             steps {
                 script {
                     def workDir = sh(script: 'pwd', returnStdout: true).trim()
+                    echo "Running Trivy vulnerability scan on ${IMAGE_NAME}"
                     sh """
                         docker run --rm \
                             -v /var/run/docker.sock:/var/run/docker.sock \
-                            -v ${workDir}:/root/reports \
                             aquasec/trivy:latest image \
                             --exit-code 0 \
                             --severity HIGH,CRITICAL \
                             --format table \
-                            /root/reports/trivy-report.txt \
                             ${IMAGE_NAME}
                     """
                 }
             }
         }
 
-        stage('Archive Scan Report') {
-            steps {
-                archiveArtifacts artifacts: 'trivy-report.txt', fingerprint: true
-            }
-        }
-
+        
         stage('Push to Docker Hub') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-cred', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {

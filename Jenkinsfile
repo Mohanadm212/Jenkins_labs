@@ -24,7 +24,7 @@ pipeline {
                             --exit-code 0 \
                             --severity HIGH,CRITICAL \
                             --format table \
-                            --output /root/reports/trivy-report.txt \
+                            /root/reports/trivy-report.txt \
                             ${IMAGE_NAME}
                     """
                 }
